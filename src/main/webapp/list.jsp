@@ -28,7 +28,7 @@
 	</tr>
 </c:forEach>
 	</table>
-		
+	<input type='button' value="글쓰기"  onclick="location.href='write_form.do';" 
 
 </body>
 </html>

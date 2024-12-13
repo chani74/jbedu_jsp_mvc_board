@@ -24,8 +24,17 @@ public class BoardController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("doGet호출");
-		
+		actionDo(request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		actionDo(request, response);
+	}
+
+	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("actionDo 호출");
 		request.setCharacterEncoding("utf-8");
 		
 		String viewPage = "" ;	//글 목록 페이지
@@ -33,10 +42,10 @@ public class BoardController extends HttpServlet {
 		String uri = request.getRequestURI()	; 
 		String conPath = request.getContextPath();   // jsp_mvc_board/
 		String com = uri.substring(conPath.length());  // list.jsp
-
-		System.out.println(uri);
-		System.out.println(conPath);
-		System.out.println(com);
+//
+//		System.out.println(uri);
+//		System.out.println(conPath);
+//		System.out.println(com);
 		
 		if(com.equals("/list.do")) {
 			BoardDao boardDao = new BoardDao();
@@ -44,18 +53,24 @@ public class BoardController extends HttpServlet {
 			request.setAttribute("boardList", bDtos);
 			
 			viewPage = "list.jsp";
+		} else if (com.equals("/write_form.do")) {
+			viewPage = "write_form.jsp";
+		} else if(com.equals("/write.do")) {
+			BoardDao boardDao = new BoardDao();
+			
+			String btitle = request.getParameter("btitle");
+			String bname = request.getParameter("bname");
+			String bcontent = request.getParameter("bcontent");
+			
+			
+			boardDao.board_write(btitle, bname, bcontent);
+//			request.setAttribute("boardList", bDtos);
+			
+			viewPage = "list.do";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-		dispatcher.forward(request,response);
+		dispatcher.forward(request,response);		
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-	}
-
-
 		
 }
