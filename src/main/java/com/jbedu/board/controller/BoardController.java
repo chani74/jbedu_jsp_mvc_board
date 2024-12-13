@@ -67,7 +67,36 @@ public class BoardController extends HttpServlet {
 //			request.setAttribute("boardList", bDtos);
 			
 			viewPage = "list.do";
+		} else if (com.equals("/content_view.do")) {
+			BoardDao boardDao = new BoardDao();
+			String bnum = request.getParameter("bnum");
+			BoardDto bDto = boardDao.content_view(bnum);
+			request.setAttribute("boardDto", bDto);
+			
+			viewPage = "content_view.jsp";
+		} else if (com.equals("/delete.do")) {
+			BoardDao boardDao = new BoardDao();
+			String bnum = request.getParameter("bnum");
+			boardDao.content_delete(bnum);
+			viewPage = "list.do";
+		} else if (com.equals("/modify.do")) {
+			BoardDao boardDao = new BoardDao();
+			String bnum = request.getParameter("bnum");
+			BoardDto bDto = boardDao.content_view(bnum);
+			request.setAttribute("boardDto", bDto);
+			
+			viewPage = "content_modify.jsp";
+		} else if (com.equals("/modify_ok.do")) {
+			BoardDao boardDao = new BoardDao();
+			String bnum = request.getParameter("bnum");
+			String btitle = request.getParameter("btitle");
+			String bname  = request.getParameter("bname");
+			String bcontent = request.getParameter("bcontent");
+			boardDao.content_modify(bnum,btitle,bname,bcontent);
+			
+			viewPage = "list.do";
 		}
+		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request,response);		

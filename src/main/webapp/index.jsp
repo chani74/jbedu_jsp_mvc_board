@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h2> 메인화면</h2>
+	<hr>
+	<a href='list.do'>게시판 글 보기</a>
 </body>
 </html>
