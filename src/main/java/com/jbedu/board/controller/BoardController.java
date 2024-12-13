@@ -70,6 +70,7 @@ public class BoardController extends HttpServlet {
 		} else if (com.equals("/content_view.do")) {
 			BoardDao boardDao = new BoardDao();
 			String bnum = request.getParameter("bnum");
+			boardDao.up_hit(bnum);	 // hit 수 증가
 			BoardDto bDto = boardDao.content_view(bnum);
 			request.setAttribute("boardDto", bDto);
 			
