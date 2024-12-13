@@ -1,6 +1,10 @@
 package com.jbedu.board.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.jbedu.board.dao.BoardDao;
+import com.jbedu.board.dto.BoardDto;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -24,16 +28,23 @@ public class BoardController extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		
-		String viewPage = "list.jsp" ;	//글 목록 페이지
+		String viewPage = "" ;	//글 목록 페이지
 			
-		String uri = request.getRequestURI()	;
-		String conPath = request.getContextPath();  
-		String com = uri.substring(conPath.length());
+		String uri = request.getRequestURI()	; 
+		String conPath = request.getContextPath();   // jsp_mvc_board/
+		String com = uri.substring(conPath.length());  // list.jsp
 
 		System.out.println(uri);
 		System.out.println(conPath);
 		System.out.println(com);
 		
+		if(com.equals("/list.do")) {
+			BoardDao boardDao = new BoardDao();
+			List<BoardDto> bDtos = boardDao.board_list();
+			request.setAttribute("boardList", bDtos);
+			
+			viewPage = "list.jsp";
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request,response);
