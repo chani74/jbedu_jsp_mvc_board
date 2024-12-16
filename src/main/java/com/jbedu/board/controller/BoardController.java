@@ -3,6 +3,7 @@ package com.jbedu.board.controller;
 import java.io.IOException;
 import java.util.List;
 
+import com.jbedu.board.command.BCommand;
 import com.jbedu.board.command.BContentCommand;
 import com.jbedu.board.command.BDeleteCommand;
 import com.jbedu.board.command.BListCommand;
@@ -47,52 +48,37 @@ public class BoardController extends HttpServlet {
 		String uri = request.getRequestURI()	; 
 		String conPath = request.getContextPath();   // jsp_mvc_board/
 		String com = uri.substring(conPath.length());  // list.jsp
-//
-//		System.out.println(uri);
-//		System.out.println(conPath);
-//		System.out.println(com);
+
+		BCommand command = null;
 		
 		if(com.equals("/list.do")) {
-			BListCommand command = new BListCommand();
+			command = new BListCommand();
 			command.execute(request, response);
 			
 			viewPage = "list.jsp";
 		} else if (com.equals("/write_form.do")) {
 			viewPage = "write_form.jsp";
 		} else if(com.equals("/write.do")) {
-			BWriteCommand command = new BWriteCommand();
+			command = new BWriteCommand();
 			command.execute(request, response);
 		
 			viewPage = "list.do";
 		} else if (com.equals("/content_view.do")) {
-//			BoardDao boardDao = new BoardDao();
-//			String bnum = request.getParameter("bnum");
-//			boardDao.up_hit(bnum);	 // hit 수 증가
-//			BoardDto bDto = boardDao.content_view(bnum);
-//			request.setAttribute("boardDto", bDto);
-			BContentCommand command = new BContentCommand();
+			command = new BContentCommand();
 			command.execute(request, response);
 			
 			viewPage = "content_view.jsp";
 		} else if (com.equals("/delete.do")) {
-//			BoardDao boardDao = new BoardDao();
-//			String bnum = request.getParameter("bnum");
-//			boardDao.content_delete(bnum);
-			BDeleteCommand command = new BDeleteCommand();
+			command = new BDeleteCommand();
 			command.execute(request, response);
 			viewPage = "list.do";
 		} else if (com.equals("/modify.do")) {
-//			BoardDao boardDao = new BoardDao();
-//			String bnum = request.getParameter("bnum");
-//			BoardDto bDto = boardDao.content_view(bnum);
-//			request.setAttribute("boardDto", bDto);
-//			
-			BContentCommand command = new BContentCommand();
+			command = new BContentCommand();
 			command.execute(request, response);
 			
 			viewPage = "content_modify.jsp";
 		} else if (com.equals("/modify_ok.do")) {
-			BModifyCommand command = new BModifyCommand();
+			command = new BModifyCommand();
 			command.execute(request, response);
 			
 			viewPage = "list.do";
